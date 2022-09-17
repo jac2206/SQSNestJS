@@ -1,6 +1,10 @@
 import { PayloadRecivedSQS } from "./PayloadRecivedSQS";
 
-export class EventSendSNS {
+export interface EventSendSNS {
     event: string;
     payload: PayloadRecivedSQS;
 }
+// export class EventSendSNS {
+//     event: string;
+//     payload: PayloadRecivedSQS;
+// }
