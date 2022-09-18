@@ -3,6 +3,7 @@ import { ConsumerSqsService } from './Application/consumer-sqs/consumer-sqs.serv
 import { ConsumerSqsController } from './Infrastructure/Controllers/consumer-sqs/consumer-sqs.controller';
 import * as AWS from 'aws-sdk';
 import { SqsModule } from '@ssut/nestjs-sqs';
+import { HttpModule } from '@nestjs/axios';
 
 AWS.config.update({
     region: 'us-east-1',
@@ -21,7 +22,7 @@ AWS.config.update({
                 },
         ],
         producers: [],
-      })
+      }), HttpModule
     ],
     controllers: [ConsumerSqsController],
     providers: [ConsumerSqsService],

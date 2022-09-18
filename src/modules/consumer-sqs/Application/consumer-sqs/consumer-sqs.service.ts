@@ -1,12 +1,15 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { SqsConsumerEventHandler, SqsMessageHandler } from '@ssut/nestjs-sqs';
+import { AxiosResponse } from 'axios';
+import { Observable } from 'rxjs';
 import { SQSMessageDTO } from 'src/Common/DTO/SQSMessageDTO';
 import { EventSendSNS } from '../../Domain/Entities/EventRecivedSQS';
 
 
 @Injectable()
 export class ConsumerSqsService {
-
+    constructor(private readonly httpService: HttpService) {}
     eventSNS:EventSendSNS;
     // sqsMessage:SQSMessageDTO;
 
@@ -15,10 +18,19 @@ export class ConsumerSqsService {
         // console.log(JSON.parse(message.Body))     
         // this.sqsMessage = JSON.parse(message.Body);
         console.log(this.getEventMessageSQS(JSON.parse(message.Body)));
+        console.log((await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data);
+        
     }
     getEventMessageSQS(message:SQSMessageDTO){
         this.eventSNS = JSON.parse(message.Message);
         return this.eventSNS;
+    }
+    sendSQSMessengeToService(eventSQS:EventSendSNS):Promise<AxiosResponse<EventSendSNS>>{
+        // console.log(eventSQS);
+        return this.httpService.axiosRef.post('http://localhost:3000/sns/sqsevent', eventSQS);
+    }
+    findAll(): Promise<AxiosResponse<any>> {
+        return this.httpService.axiosRef.get('http://localhost:3000');
     }
 
     // @SqsMessageHandler('MicroServicerReadSQS', false)
