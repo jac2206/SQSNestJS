@@ -12,12 +12,14 @@ AWS.config.update({
   });
 
 @Module({
-    imports: [ 
+    imports: [
         SqsModule.register({
             consumers: [
                 {
-                    name: 'MicroServicerReadSQS', // name of the queue 
-                    queueUrl: 'https://sqs.us-east-1.amazonaws.com/495489616453/MicroServicerReadSQS', 
+                    name: 'MicroServicerReadSQS.fifo', // name of the queue
+                    // name: 'AsusColaNestJS', // name of the queue
+                    // queueUrl: 'https://sqs.us-east-1.amazonaws.com/495489616453/AsusColaNestJS',
+                    queueUrl: 'https://sqs.us-east-1.amazonaws.com/495489616453/MicroServicerReadSQS.fifo',
                     region: 'us-east-1',
                 },
         ],
