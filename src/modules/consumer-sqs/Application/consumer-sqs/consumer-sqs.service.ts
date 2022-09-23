@@ -21,13 +21,13 @@ export class ConsumerSqsService {
         // console.log((await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data);
         (await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data;       
     }
-    @SqsMessageHandler('MicroServicerReadSQS.fifo', false)
+    @SqsMessageHandler('AsusCola.fifo', false)
     async handleMessageFIFO(message: AWS.SQS.Message) {
         // console.log(JSON.parse(message.Body))     
         // this.sqsMessage = JSON.parse(message.Body);
         console.log(this.getEventMessageSQS(JSON.parse(message.Body)));
         // console.log((await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data);
-        (await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data;       
+        // (await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data;       
     }
     getEventMessageSQS(message:SQSMessageDTO){
         this.eventSNS = JSON.parse(message.Message);
