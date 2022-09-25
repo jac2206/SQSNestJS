@@ -79,6 +79,7 @@ export class ConsumerSqsService {
     return this.httpService.axiosRef.get('http://localhost:3000');
   }
 
+<<<<<<< HEAD
   // @SqsMessageHandler('MicroServicerReadSQS', false)
   // async handleMessage(message: AWS.SQS.Message) {
   //     console.log(JSON.parse(message.Body))
@@ -101,6 +102,35 @@ export class ConsumerSqsService {
   //     this.eventSNS = JSON.parse(message);
   //     return this.eventSNS;
   // }
+=======
+    @SqsMessageHandler('MicroServicerReadAsusSQS', false)
+    async handleMessage(message: AWS.SQS.Message) {
+        // console.log(JSON.parse(message.Body))     
+        // this.sqsMessage = JSON.parse(message.Body);
+        console.log(this.getEventMessageSQS(JSON.parse(message.Body)));
+        // console.log((await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data);
+        (await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data;       
+    }
+    @SqsMessageHandler('AsusCola.fifo', false)
+    async handleMessageFIFO(message: AWS.SQS.Message) {
+        // console.log(JSON.parse(message.Body))     
+        // this.sqsMessage = JSON.parse(message.Body);
+        console.log(this.getEventMessageSQS(JSON.parse(message.Body)));
+        // console.log((await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data);
+        // (await this.sendSQSMessengeToService(this.getEventMessageSQS(JSON.parse(message.Body)))).data;       
+    }
+    getEventMessageSQS(message:SQSMessageDTO){
+        this.eventSNS = JSON.parse(message.Message);
+        return this.eventSNS;
+    }
+    sendSQSMessengeToService(eventSQS:EventSendSNS):Promise<AxiosResponse<EventSendSNS>>{
+        // console.log(eventSQS);
+        return this.httpService.axiosRef.post('http://localhost:3000/sns/sqsevent', eventSQS);
+    }
+    findAll(): Promise<AxiosResponse<any>> {
+        return this.httpService.axiosRef.get('http://localhost:3000');
+    }
+>>>>>>> 766e6b4241c2b9aaf133ba1e381e4aba2f3eb266
 
   // @SqsMessageHandler('MicroServicerReadSQS', false)
   // async handleMessage(message: AWS.SQS.Message) {
